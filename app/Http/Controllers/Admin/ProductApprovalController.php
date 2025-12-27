@@ -17,20 +17,26 @@ class ProductApprovalController extends Controller
     }
 
     public function process(Product $product)
-    {
-        $product->update([
-            'admin_status' => 'processed',
-        ]);
+{
+    $product->update([
+        'admin_status' => 'approved'
+    ]);
 
-        return redirect()->back()->with('success', 'Product approved');
-    }
+    return response()->json([
+        'success' => true,
+        'message' => 'Product approved'
+    ]);
+}
 
-    public function reject(Product $product)
-    {
-        $product->update([
-            'admin_status' => 'rejected',
-        ]);
+public function reject(Product $product)
+{
+    $product->update([
+        'admin_status' => 'rejected'
+    ]);
 
-        return redirect()->back()->with('success', 'Product rejected');
-    }
+    return response()->json([
+        'success' => true,
+        'message' => 'Product rejected'
+    ]);
+}
 }

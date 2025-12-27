@@ -14,10 +14,15 @@
         @endrole
 
         @role('vendor')
+        <a href="{{ route('vendor.dashboard') }}">Vendor Dashboard</a>
           <a href="{{ route('vendor.orders.index') }}">Vendor Orders</a>
         @endrole
 
         @role('admin')
+        <a href="{{ route('admin.dashboard') }}">
+    Admin Dashboard
+</a>
+
           <a href="{{ route('admin.products.pending') }}">Admin</a>
         @endrole
 

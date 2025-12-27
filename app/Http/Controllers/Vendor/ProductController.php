@@ -10,6 +10,15 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
+    public function index()
+    {
+        $vendor = Vendor::where('user_id', Auth::id())->firstOrFail();
+
+        $products = Product::where('vendor_id', $vendor->id)->get();
+
+        return view('vendor.products.index', compact('products'));
+    }
+
     public function create()
     {
         return view('vendor.products.create');
@@ -27,7 +36,7 @@ class ProductController extends Controller
 
         $vendor = Vendor::where('user_id', Auth::id())->firstOrFail();
 
-        $product = Product::create([
+        Product::create([
             'vendor_id' => $vendor->id,
             'name' => $request->name,
             'sku' => $request->sku,
@@ -35,10 +44,10 @@ class ProductController extends Controller
             'stock' => $request->stock,
             'requires_prescription' => $request->requires_prescription ?? false,
             'vendor_status' => 'draft',
-            'admin_status' => 'unprocessed',
+            'admin_status' => 'pending', // 🔥 FIXED
         ]);
 
-        return redirect()->route('vendor.dashboard')
+        return redirect()->route('vendor.products.index')
             ->with('success', 'Product saved as draft');
     }
 
@@ -54,7 +63,7 @@ class ProductController extends Controller
             'vendor_status' => 'submitted',
         ]);
 
-        return redirect()->route('vendor.dashboard')
+        return redirect()->route('vendor.products.index')
             ->with('success', 'Product submitted for admin review');
     }
 }

@@ -1,6 +1,8 @@
 <h2>Available Medicines</h2>
 
 @if($products->isEmpty())
+
+
     <p>No products available</p>
 @endif
 
@@ -18,7 +20,15 @@
 
         @if($product->requires_prescription)
             <span style="color:red;">Prescription Required</span><br>
-        @endif
+    
+<button
+    type="button"
+    class="add-to-cart-btn mt-2 bg-green-600 text-white px-4 py-2 rounded"
+    data-product-id="{{ $product->id }}"
+>
+    Add to Cart
+</button>
+            @endif
 
         @auth
             <form method="POST" action="{{ route('orders.store') }}">
@@ -33,4 +43,33 @@
         @endauth
 
     </div>
+ <script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const productId = this.dataset.productId;
+
+            fetch('{{ route('cart.add') }}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ product_id: productId })
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert('Added to cart');
+            });
+        });
+    });
+
+});
+</script>
+
+
 @endforeach
