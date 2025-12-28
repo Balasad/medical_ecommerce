@@ -7,14 +7,15 @@ use App\Models\Product;
 
 class ProductApprovalController extends Controller
 {
-    public function index()
-    {
-        $products = Product::where('vendor_status', 'submitted')
-            ->where('admin_status', 'unprocessed')
-            ->get();
+   public function index()
+{
+    $products = Product::where('vendor_status', 'submitted')
+        ->where('admin_status', 'pending')
+        ->get();
 
-        return view('admin.products.pending', compact('products'));
-    }
+    return view('admin.products.pending', compact('products'));
+}
+
 
     public function process(Product $product)
 {

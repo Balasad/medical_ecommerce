@@ -86,34 +86,26 @@ Route::middleware(['auth', 'role:vendor'])
     ->prefix('vendor')
     ->group(function () {
 
-        // Dashboard
         Route::get('/dashboard', [VendorDashboardController::class, 'index'])
             ->name('vendor.dashboard');
 
-        // 🔹 VIEW vendor products (FIXED)
         Route::get('/products', [ProductController::class, 'index'])
             ->name('vendor.products.index');
 
-        // Create product
         Route::get('/products/create', [ProductController::class, 'create'])
             ->name('vendor.products.create');
 
-        // Store product
         Route::post('/products', [ProductController::class, 'store'])
             ->name('vendor.products.store');
 
-        // Submit product for admin approval
         Route::post('/products/{product}/submit', [ProductController::class, 'submit'])
             ->name('vendor.products.submit');
 
-        // Vendor orders
         Route::get('/orders', [VendorOrderController::class, 'index'])
             ->name('vendor.orders.index');
-
+    });
         Route::post('/orders/{order}/status', [VendorOrderController::class, 'updateStatus'])
             ->name('vendor.orders.updateStatus');
-    });
-
 
 /*
 |--------------------------------------------------------------------------

@@ -16,6 +16,15 @@ export default {
             },
         },
     },
+    theme: {
+  extend: {
+    colors: {
+      brand: '#2563eb', // blue-600
+    },
+  },
+},
+
+
 
     plugins: [forms],
 };
